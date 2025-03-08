@@ -4,7 +4,11 @@ const shapeContainer = document.querySelector('.shape-container');
 const addShape = document.querySelector('button');
 const shapeSelect = document.querySelector('[name="shape"]');
 const colorSelect = document.querySelector('[name="color"]');
-const alerts = document.querySelector('.alert')
+const alerts = document.querySelector('.alert');
+const dropSound = new Audio('./assets/media/drop.mp3');
+dropSound.type = 'audio/mp3';
+const errorSound = new Audio('./assets/media/error2.mp3');
+errorSound.type = 'audio/mp3';
 
 const shapes = [];
 let shapeCount = 0;
@@ -43,14 +47,16 @@ function createShape() {
     const shapeName = shapeSelect.value;
     const shapeColor = colorSelect.value;
 
-    if (shapeName === "shape" && shapeColor === "color") {
+    if (shapeName === "shape" || shapeColor === "color") {
         alerts.style.visibility = 'visible';
         alerts.textContent = 'Please select both a shape and a color!!';
+        errorSound.play();
         return;
     } 
     if (shapes.length >= 24) {
         alerts.style.visibility = 'visible';
         alerts.textContent = 'You have reached the limit!';
+        errorSound.play();
         return;
     }
 
@@ -70,6 +76,7 @@ function createShape() {
     });
 
     shapeContainer.appendChild(shapeDiv);
+    dropSound.play();
     shapeCount++;
 }
 
